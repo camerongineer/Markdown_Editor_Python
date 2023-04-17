@@ -13,10 +13,21 @@ def get_url():
 
 def get_level():
     level = input('Level: ')
-    if not level.isdigit() or int(level) not in range(1, 6):
+    while not level.isdigit() or int(level) not in range(1, 6):
         print('The level should be within the range of 1 to 6')
-    else:
-        return int(level)
+        level = input('Level: ')
+    return int(level)
+
+
+def get_num_rows():
+    while True:
+        try:
+            number_of_rows = int(input('Number of rows: '))
+            if number_of_rows < 1:
+                raise ValueError
+            return number_of_rows
+        except (ValueError, TypeError):
+            print('The number of rows should be greater than zero')
 
 
 def append_new_line(in_text, num_lines=1):
@@ -47,7 +58,7 @@ def header_format():
 def link_format():
     link_label = get_label()
     link_url = get_url()
-    return f'[{link_label}({link_url})'
+    return f'[{link_label}]({link_url})'
 
 
 def inline_code_format():
@@ -55,12 +66,22 @@ def inline_code_format():
     return f'`{inline_code_text}`'
 
 
+def list_format(ordered=True):
+    num_rows = get_num_rows()
+    list_string = ''
+    for i in range(1, num_rows + 1):
+        type_ch = f'{i}.' if ordered else '*'
+        string = input(f'Row #{i}: ')
+        list_string += f'{type_ch} {string}\n'
+    return list_string
+
+
 def ordered_list_format():
-    pass
+    return list_format(ordered=True)
 
 
 def unordered_list_format():
-    pass
+    return list_format(ordered=False)
 
 
 def new_line_format():
